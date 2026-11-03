@@ -17,7 +17,7 @@ Backend modules follow `routes -> controller -> service -> repository`, with a Z
 ## Conventions that span files
 
 - API base is `/api/v1`. Success responses use `{success, data, message}`. Errors use `{success:false, error:{code, message, details}}`.
-- Timestamps are UTC ISO 8601. Due dates and routine occurrence dates are `YYYY-MM-DD` local calendar dates. The default timezone is `Asia/Kolkata` and must be configurable. Weekdays are ISO numbers, Monday=1 to Sunday=7.
+- Timestamps are UTC ISO 8601. Due dates and routine occurrence dates are `DD-MM-YYYY` local calendar dates everywhere (API, UI, fixtures); these strings do not sort as text, so parse them first (see the `date-rules` skill). The default timezone is `Asia/Kolkata` and must be configurable. Weekdays are ISO numbers, Monday=1 to Sunday=7.
 - A routine has at most one log per (routine, occurrence date); duplicates return 409.
 - Preserve TaskHistory. Analytics read from history and routine logs, not from current task status. Carrying a task forward must not duplicate it.
 - AI changes must go through this flow: structured proposal, backend validation, user approval, revalidation, then idempotent execution. Proposals can expire. Creating a proposal must not change data. The model gets no database, SQL or shell access, and its output is Zod-validated.

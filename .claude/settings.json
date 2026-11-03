@@ -1,0 +1,60 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(npm test*)",
+      "Bash(npx prisma generate)",
+      "Bash(npx prisma migrate dev*)",
+      "Bash(npx tsc --noEmit*)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)"
+    ],
+    "ask": [
+      "Bash(npm install*)",
+      "Bash(npm i *)",
+      "Bash(npx ng add*)"
+    ],
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Edit(**/.env)",
+      "Edit(**/.env.*)",
+      "Read(**/*.db)",
+      "Read(**/*.sqlite)",
+      "Read(**/backups/**)",
+      "Bash(rm -rf*)",
+      "Bash(git push*)",
+      "Bash(git reset --hard*)",
+      "Bash(curl*)",
+      "Bash(wget*)",
+      "Bash(npm publish*)",
+      "Bash(npx prisma migrate reset*)",
+      "Bash(npx prisma db push*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read|Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-files.mjs\"" }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-bash.mjs\"" }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/format.mjs\"" }
+        ]
+      }
+    ]
+  }
+}

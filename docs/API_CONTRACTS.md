@@ -12,7 +12,7 @@
 - Validate all incoming requests.
 - Use consistent response structures.
 - Use ISO 8601 UTC timestamps.
-- Use `YYYY-MM-DD` for date-only values.
+- Use `DD-MM-YYYY` for date-only values (for example `05-11-2026`). Invalid calendar dates return 422.
 
 ### Success response
 
@@ -96,7 +96,7 @@ Create task request:
   "description": "Understand how Skills work",
   "categoryId": "category-id",
   "priority": "HIGH",
-  "dueDate": "2026-11-05",
+  "dueDate": "05-11-2026",
   "estimatedMinutes": 60
 }
 ```
@@ -144,7 +144,7 @@ Create routine request:
   "frequency": "WEEKLY",
   "weekdays": [1, 2, 3, 4, 5],
   "targetMinutes": 30,
-  "startDate": "2026-11-03"
+  "startDate": "03-11-2026"
 }
 ```
 
@@ -154,7 +154,7 @@ Routine completion request:
 
 ```json
 {
-  "occurrenceDate": "2026-11-03",
+  "occurrenceDate": "03-11-2026",
   "completed": true,
   "actualMinutes": 35,
   "note": "Studied Claude Code hooks"
@@ -191,7 +191,7 @@ The response should aggregate:
 Example query:
 
 ```text
-GET /analytics/monthly?from=2026-11-01&to=2026-11-30
+GET /analytics/monthly?from=01-11-2026&to=30-11-2026
 ```
 
 Task and routine metrics should be reported separately.
@@ -227,7 +227,7 @@ Example response:
     "actionType": "CREATE_TASK",
     "preview": {
       "title": "Finish architecture review",
-      "dueDate": "2026-11-06",
+      "dueDate": "06-11-2026",
       "estimatedMinutes": 60
     },
     "status": "PENDING_APPROVAL",
